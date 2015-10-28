@@ -1,0 +1,4 @@
+services:
+#    restaurant_search.example:
+#        class: DaveHamber\RestaurantSearchBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

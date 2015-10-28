@@ -1,3 +1,7 @@
+restaurant_search:
+    resource: "@RestaurantSearchBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
