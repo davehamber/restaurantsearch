@@ -44,5 +44,14 @@ monolog:
 assetic:
     use_controller: true
 
+parameters:
+    buzz.client.class: Nixilla\Api\LoggerBundle\Proxy\Buzz\Client\Curl
+
+services:
+    hwi_oauth.http_client:
+        class: "%buzz.client.class%"
+        calls:
+            - [ 'setLogger', [ "@nixilla.api.logger" ]]
+
 #swiftmailer:
 #    delivery_address: me@example.com
