@@ -18,10 +18,12 @@
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
-        "friendsofsymfony/user-bundle" : "~1.3"
+        "friendsofsymfony/user-bundle" : "~1.3",
+        "hwi/oauth-bundle": "0.4.*@dev"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "nixilla/api-logger-bundle": "~0.2.0"
     },
     "scripts": {
         "post-install-cmd": [
