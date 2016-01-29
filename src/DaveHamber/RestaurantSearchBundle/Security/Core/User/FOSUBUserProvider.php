@@ -15,7 +15,6 @@ use FOS\UserBundle\Model\User;
 use FOS\UserBundle\Model\UserManagerInterface;
 use HWI\Bundle\OAuthBundle\Connect\AccountConnectorInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
-use HWI\Bundle\OAuthBundle\Security\Core\Exception\AccountNotLinkedException;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -82,12 +81,44 @@ class FOSUBUserProvider implements UserProviderInterface, AccountConnectorInterf
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
-        $username = $response->getUsername();
+        $userId = $response->getUsername();
+        $userName = $response->getRealName();
+        $userEmail = $response->getEmail();
+        $user = $this->userManager->findUserBy(array($this->getProperty($response) => $userId));
 
-        $user = $this->userManager->findUserBy(array($this->getProperty($response) => $username));
-        if (null === $user || null === $username) {
-            throw new AccountNotLinkedException(sprintf("User '%s' not found.", $username));
+        // This user can't be found, we proceed to register them.
+        if (null === $user) {
+            $service = $response->getResourceOwner()->getName();
+            $setter = 'set'.ucfirst($service);
+            $setter_id = $setter.'Id';
+            $setter_token = $setter.'AccessToken';
+
+            // create new user here
+            $user = $this->userManager->createUser();
+            $user->$setter_id($userId);
+            $user->$setter_token($response->getAccessToken());
+
+            // I have set all requested data with the user's username
+            // modify here with relevant data
+
+            // TODO: Make solution for setting passwords for users that have only registered via facebook.
+            // Currently setting the username as a password is a big security hole.
+            $user->setUsername($userName);
+            $user->setEmail($userEmail);
+            $user->setPassword($userName);
+            $user->setEnabled(true);
+            $this->userManager->updateUser($user);
+            return $user;
         }
+
+        // If user exists - go with the HWIOAuth way
+        $user = parent::loadUserByOAuthUserResponse($response);
+
+        $serviceName = $response->getResourceOwner()->getName();
+        $setter = 'set' . ucfirst($serviceName) . 'AccessToken';
+
+        //update access token
+        $user->$setter($response->getAccessToken());
 
         return $user;
     }
@@ -115,7 +146,25 @@ class FOSUBUserProvider implements UserProviderInterface, AccountConnectorInterf
             $this->disconnect($previousUser, $response);
         }
 
-        $this->accessor->setValue($user, $property, $username);
+        //on connect - get the access token and the user ID
+        $service = $response->getResourceOwner()->getName();
+
+        $setter       = 'set' . ucfirst($service);
+        $setter_id    = $setter . 'Id';
+        $setter_token = $setter . 'AccessToken';
+
+        $previousUser = $this->userManager->findUserBy(array($property => $username));
+
+        // We "disconnect" previously connected users
+        if (null !== $previousUser) {
+            $previousUser->$setter_id(null);
+            $previousUser->$setter_token(null);
+            $this->userManager->updateUser($previousUser);
+        }
+
+        // We connect current user
+        $user->$setter_id($username);
+        $user->$setter_token($response->getAccessToken());
 
         $this->userManager->updateUser($user);
     }
