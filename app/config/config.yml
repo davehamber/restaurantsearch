@@ -84,3 +84,25 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: DaveHamber\RestaurantSearchBundle\Entity\User
+
+hwi_oauth:
+    firewall_name:         "main"
+
+    connect:
+        account_connector: my_user_provider
+
+    resource_owners:
+        facebook:
+            type:          "facebook"
+            client_id:     "%fb_client_id%"
+            client_secret: "f94e2ae865ac744f78e9485dc02026c7"
+            scope:         "email"
+            options:
+                display: popup #dialog is optimized for popup window
+
+    fosub:
+        # try 30 times to check if a username is available (foo, foo1, foo2 etc)
+        username_iterations: 30
+        # mapping between resource owners (see below) and properties
+        properties:
+            facebook: facebook_id
