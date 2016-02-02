@@ -1,0 +1,9 @@
+{% extends 'RestaurantSearchBundle:Default:base.html.twig' %}
+{% block body %}
+    {% include 'RestaurantSearchBundle:Default:page_navigation_bar.html.twig' %}
+    {% include 'RestaurantSearchBundle:Default:login_bar.html.twig' %}
+    <div class="container">
+        {% block page_content %}
+        {% endblock page_content %}
+    </div>
+{% endblock body %}
