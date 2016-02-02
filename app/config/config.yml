@@ -35,6 +35,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+            fb_client_id: "%fb_client_id%"
 
 # Assetic Configuration
 assetic:
