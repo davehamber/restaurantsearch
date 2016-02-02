@@ -1,0 +1,10 @@
+{% block loginbar %}
+    <div class="container text-right">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href="{{ path('fos_user_security_logout') }}">logout</a>
+        {% else %}
+            <a href="{{ path('fos_user_registration_register') }}">sign up</a> |
+            <a href="{{ path('fos_user_security_login') }}">login</a>
+        {% endif %}
+    </div>
+{% endblock %}

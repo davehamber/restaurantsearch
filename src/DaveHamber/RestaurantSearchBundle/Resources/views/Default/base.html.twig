@@ -1,1 +1,16 @@
 {% extends '::base.html.twig' %}
+
+{% block title %}Dave Hamber{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/restaurantsearch/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/restaurantsearch/css/bootstrap-theme.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/restaurantsearch/css/restaurantsearch.css') }}" />
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('bundles/restaurantsearch/js/jquery-2.2.0.min.js') }}"></script>
+    <script src="{{ asset('bundles/restaurantsearch/js/bootstrap.min.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    restaurantsearch.davehamber.com
+{% endblock %}
