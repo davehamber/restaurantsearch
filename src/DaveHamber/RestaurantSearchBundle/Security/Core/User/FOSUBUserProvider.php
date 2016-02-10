@@ -16,6 +16,7 @@ use FOS\UserBundle\Model\UserManagerInterface;
 use HWI\Bundle\OAuthBundle\Connect\AccountConnectorInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
+use HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider as BaseClass;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -31,7 +32,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  *
  * @author Alexander <iam.asm89@gmail.com>
  */
-class FOSUBUserProvider implements UserProviderInterface, AccountConnectorInterface, OAuthAwareUserProviderInterface
+class FOSUBUserProvider extends BaseClass implements UserProviderInterface, AccountConnectorInterface, OAuthAwareUserProviderInterface
 {
     /**
      * @var UserManagerInterface
@@ -168,10 +169,10 @@ class FOSUBUserProvider implements UserProviderInterface, AccountConnectorInterf
 
         $this->userManager->updateUser($user);
     }
-    
+
     /**
      * Disconnects a user
-     * 
+     *
      * @param UserInterface $user
      * @param UserResponseInterface $response
      */
