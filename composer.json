@@ -5,8 +5,32 @@
     "autoload": {
         "psr-4": {
             "": "src/"
-        }
+        },
+        "classmap": [ "vendor/swiecki/gogeocode/src/" ]
     },
+
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "swiecki/gogeocode",
+                "version": "1.0",
+                "type": "component",
+                "dist": {
+                    "url": "https://github.com/swiecki/gogeocode/archive/master.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/swiecki/gogeocode.git",
+                    "type": "git",
+                    "reference": "1.0"
+                },
+                "require": {
+
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.9",
         "symfony/symfony": "2.7.*",
@@ -20,7 +44,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle" : "~1.3",
         "hwi/oauth-bundle": "0.4.*@dev",
-        "bmatzner/fontawesome-bundle": "~4.4"
+        "bmatzner/fontawesome-bundle": "~4.4",
+        "swiecki/gogeocode": "*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
