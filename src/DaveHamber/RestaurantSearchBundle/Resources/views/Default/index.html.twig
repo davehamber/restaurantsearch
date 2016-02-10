@@ -4,9 +4,9 @@
         <div class="text-center">
             <h1>Welcome to the restaurant search demo.</h1>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                Signed in
+                {% include 'RestaurantSearchBundle:Default:index.content.signedin.html.twig' %}
             {% else %}
-                Signed out
+                {% include 'RestaurantSearchBundle:Default:index.content.signedout.html.twig' %}
             {% endif %}
         </div></div>
 {% endblock %}

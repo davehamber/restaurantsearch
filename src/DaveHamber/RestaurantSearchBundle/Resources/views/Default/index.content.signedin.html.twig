@@ -1,0 +1,21 @@
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+<!--
+input text box to type address, submit button
+ 
+As a signed in user, I should be able to search for restaurants by entering in any
+address. I would like to see 20 restaurants at a time sorted by distance, with the
+following info per restaurant:
+● Name
+● Address
+● Photo
+● Review score
+-->
+<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+		<div class="well bs-component">{{ form_start(form) }} {{
+			form_widget(form) }} {{ form_end(form) }}</div>
+			<div style="text-align: left;">{{ output|raw }}</div>
+	</div>
+	<div class="col-md-2"></div>
+</div>
