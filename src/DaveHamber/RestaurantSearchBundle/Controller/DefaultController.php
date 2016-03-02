@@ -2,6 +2,7 @@
 
 namespace DaveHamber\RestaurantSearchBundle\Controller;
 
+use DaveHamber\RestaurantSearchBundle\Model\NearBySearchResults;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use DaveHamber\RestaurantSearchBundle\Form\Type\RestaurantSearchType;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,25 +16,33 @@ class DefaultController extends Controller
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
 
             $form = $this->createForm(new RestaurantSearchType());
-            $output = "";
+            $googlePlacesViaAddress = $this->get('google_places_via_address');
             if ($request->isMethod('POST')) {
                 $form->bind($request);
 
                 if ($form->isValid()) {
 
                     $searchAddress = $form->get('address')->getData();
+                    $searchResults = $googlePlacesViaAddress->getPlacesData($searchAddress);
 
-                    $googlePlacesViaAddress = $this->get('google_places_via_address');
-                    $output = $googlePlacesViaAddress->givePlacesData($searchAddress);
-
+                } else {
+                    $searchResults = new NearBySearchResults(
+                        $googlePlacesViaAddress->getGoogleAPIKey(),
+                        $googlePlacesViaAddress
+                    );
                 }
+            } else {
+                $searchResults = new NearBySearchResults(
+                    $googlePlacesViaAddress->getGoogleAPIKey(),
+                    $googlePlacesViaAddress
+                );
             }
 
-            return $this->render('RestaurantSearchBundle:Default:index.html.twig', array('form' => $form->createView(), 'output' => $output));
-
-
-        }
-        else {
+            return $this->render(
+                'RestaurantSearchBundle:Default:index.html.twig',
+                array('form' => $form->createView(), 'results' => $searchResults)
+            );
+        } else {
             return $this->render('RestaurantSearchBundle:Default:index.html.twig');
 
         }
