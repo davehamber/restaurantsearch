@@ -170,7 +170,7 @@ class NearBySearchResult
         }
 
         $fileName = realpath(
-                $googlePlacesViaAddress->getRootDir().'/'.$googlePlacesViaAddress->getStreetviewPath()
+                $googlePlacesViaAddress->getRootDir().'/'.$googlePlacesViaAddress->getStreetViewPath()
             ).'/'.
             $this->placeId.'.jpg';
 
