@@ -221,6 +221,11 @@ class NearBySearchResult
         return $this->placeId;
     }
 
+    public function getImagePathAndName()
+    {
+        return '/'.basename($this->googlePlacesViaAddress->getStreetViewPath()).'/'.$this->placeId.'.jpg';
+    }
+
     /**
      * @param int $earthRadius
      * @return int
