@@ -116,7 +116,7 @@ class GoogleStreetView
      */
     public function setLocation($longitude, $latitude)
     {
-        $this->location = (string)($longitude.','.$latitude);
+        $this->location = (string)($latitude.','.$longitude);
     }
 
     /**
