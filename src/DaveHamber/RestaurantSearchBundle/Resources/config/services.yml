@@ -9,4 +9,4 @@ services:
 
     google_places_via_address:
         class: DaveHamber\RestaurantSearchBundle\Model\GooglePlacesViaAddress
-        arguments: ["%google_api_key%", "%kernel.root_dir%", "%street_view_image_path%", @logger]
+        arguments: ["%google_api_key%", "%kernel.root_dir%", "%street_view_image_path%", @doctrine.orm.entity_manager, @logger]
