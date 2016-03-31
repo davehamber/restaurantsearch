@@ -26,16 +26,10 @@ class DefaultController extends Controller
                     $searchResults = $googlePlacesViaAddress->getPlacesData($searchAddress);
 
                 } else {
-                    $searchResults = new NearBySearchResults(
-                        $googlePlacesViaAddress->getGoogleAPIKey(),
-                        $googlePlacesViaAddress
-                    );
+                    $searchResults = array();
                 }
             } else {
-                $searchResults = new NearBySearchResults(
-                    $googlePlacesViaAddress->getGoogleAPIKey(),
-                    $googlePlacesViaAddress
-                );
+                $searchResults = array();
             }
 
             return $this->render(
