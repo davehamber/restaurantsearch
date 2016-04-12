@@ -75,7 +75,7 @@ class GooglePlacesViaAddress
         $this->entityManager = $entityManager;
         $this->logger = $logger;
 
-        GooglePlace::setPaths($rootDir, $streetViewPath);
+        GooglePlace::setPathsAndApiKey($rootDir, $streetViewPath, $googleAPIKey);
 
         $this->queryStringRepository = $this->entityManager->getRepository('RestaurantSearchBundle:QueryString');
         $this->locationRepository = $this->entityManager->getRepository('RestaurantSearchBundle:GoogleLocation');
@@ -163,10 +163,14 @@ class GooglePlacesViaAddress
 
                     $googlePlace->setId($result['place_id']);
                     $googlePlace->setName($result['name']);
-                    $googlePlace->setVicinity($result['vicinity']);
+                    if (isset($result['vicinity'])) {
+                        $googlePlace->setVicinity($result['vicinity']);
+                    }
                     $googlePlace->setRating($rating);
 
-
+                    if (isset($result['photos'][0]['photo_reference'])) {
+                        $googlePlace->setPhotoId($result['photos'][0]['photo_reference']);
+                    }
 
                     if (isset($result['geometry']['location']) && is_array($result['geometry']['location']) && 2 == count(
                             $result['geometry']['location']
@@ -175,26 +179,7 @@ class GooglePlacesViaAddress
                         $longitude = (float)$result['geometry']['location']['lng'];
                         $latitude = (float)$result['geometry']['location']['lat'];
                     } else {
-                        continue;
-                    }
 
-                    $fileName = $googlePlace->getAbsoluteStreetViewPath();
-
-                    $fs = new Filesystem();
-
-                    if (!$fs->exists($fileName)) {
-                        if (isset($result['photos'])) {
-                            $placePhoto = new GooglePlacePhoto(
-                                $this->googleAPIKey,
-                                $fileName,
-                                $result['photos'][0]
-                            );
-                            $placePhoto->getPlacePhoto(250, 200);
-                        } else {
-                            $streetView = new GoogleStreetView($this->googleAPIKey, $fileName);
-                            $streetView->setLocation($longitude, $latitude);
-                            $streetView->getStreetView();
-                        }
                     }
 
                     //try {
@@ -209,6 +194,7 @@ class GooglePlacesViaAddress
                     $newGoogleLocation = $this->fetchLocationEntity($longitude, $latitude);
 
                     $googlePlace->setGoogleLocation($newGoogleLocation);
+                    $googlePlace->fetchImages();
 
                     $this->entityManager->persist($googlePlace);
                     $this->entityManager->flush();
