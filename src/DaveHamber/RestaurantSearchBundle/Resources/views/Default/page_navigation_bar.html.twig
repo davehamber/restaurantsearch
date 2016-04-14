@@ -12,8 +12,8 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ path('restaurant_search_homepage') }}">Home</a></li>
-                    <li><a href="{{ path('restaurant_search_homepage') }}">About</a></li>
+                    <li{{ active[0]|raw }}><a href="{{ path('restaurant_search_homepage') }}">Home</a></li>
+                    <li{{ active[1]|raw }}><a href="{{ path('restaurant_search_about') }}">About</a></li>
 
                 </ul>
             </div><!--/.nav-collapse -->

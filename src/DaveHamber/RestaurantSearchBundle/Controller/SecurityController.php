@@ -17,6 +17,8 @@ use FOS\UserBundle\Controller\SecurityController as BaseController;
 
 class SecurityController extends BaseController
 {
+    protected $active = array('', '');
+
     public function loginAction()
     {
         $request = $this->container->get('request');
@@ -47,6 +49,7 @@ class SecurityController extends BaseController
             'last_username' => $lastUsername,
             'error'         => $error,
             'csrf_token' => $csrfToken,
+            'active' => $this->active
         ));
     }
 
