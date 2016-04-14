@@ -1,12 +1,17 @@
 {% extends 'RestaurantSearchBundle:Default:page_with_nav_and_login_bar.html.twig' %}
 {% block page_content %}
-    <div class="container">
-        <div class="text-center">
-            <h1>Welcome to the restaurant search demo.</h1>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                Signed in
-            {% else %}
-                Signed out
-            {% endif %}
-        </div></div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="text-center">
+                <h1>Restaurant Search Demonstration</h1>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% include 'RestaurantSearchBundle:Default:index.content.signedin.html.twig' %}
+                {% else %}
+                    {% include 'RestaurantSearchBundle:Default:index.content.signedout.html.twig' %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
 {% endblock %}

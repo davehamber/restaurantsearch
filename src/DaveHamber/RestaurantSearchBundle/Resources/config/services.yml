@@ -6,3 +6,7 @@ services:
         class: "%my_user_provider.class%"
         #this is the place where the properties are passed to the UserProvider - see config.yml
         arguments: ["@fos_user.user_manager",{facebook: facebook_id}]
+
+    google_places_via_address:
+        class: DaveHamber\RestaurantSearchBundle\Model\GooglePlacesViaAddress
+        arguments: ["%google_api_key%", "%kernel.root_dir%", "%street_view_image_path%", @doctrine.orm.entity_manager, @logger]

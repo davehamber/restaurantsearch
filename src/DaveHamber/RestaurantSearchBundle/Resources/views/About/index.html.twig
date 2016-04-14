@@ -1,0 +1,40 @@
+{% extends 'RestaurantSearchBundle:Default:page_with_nav_and_login_bar.html.twig' %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="text-center"><h1>Restaurant Search Demonstration</h1></div>
+            <h3>About</h3>
+            <p>The Restaurant Search Demonstration allows a user to input the address of any
+                geographical location when logged in. Upon submitting a query, a list of the nearest twenty
+                restaurants is returned in ascending order of distance. The search results contain a photo of the
+                restaurant, its name, address, a rating and its distance from the searched location.</p>
+            <p>This demonstration shows the usage of account based authentication, OAuth Facebook API
+                authentication, Google Places API and Doctrine entities with a MySQL backend all within Symfony2.</p>
+            <p>All user results are cached locally to database, and the respective images are stored in the filesystem.
+                Subsequently repeated searches no longer require interaction with Google.</p>
+            <h3>Key Technologies</h3>
+            <ul class="list-group">
+
+                <li class="list-group-item">Symfony 2.7 Framework</li>
+                <li class="list-group-item">Database user account authentication (Friends of Symfony bundle).</li>
+                <li class="list-group-item">Facebook Connect OAuth (HWI OAuth bundle).</li>
+                <li class="list-group-item">Google Places API</li>
+                <li class="list-group-item">Google Street View API</li>
+            </ul>
+            <h3>Detail</h3>
+            <p>In order to use the Restaurant Search, the user must first log in to the site on the login page. Either
+                an account can be created using user submitted details allowing them to log in, or alternatively
+                Facebook can be used.</p>
+            <p>The address the user types is converted via Google Geocoding into latitude and longitude. Using the
+                Google Places API, a "nearby search" is sent using the latitude and longitude from the geocoding. The
+                nearest twenty restaurants to the location are returned from Google. If photo information exists in a
+                result, the first photo image will then be fetched from google. If there are no photos for any given
+                place result then an image closest to the location will be fetched from Google Street View API.</p>
+            <p>All results are committed to a MySQL database via Doctrine. The image files and photos are saved and
+                stored on the server. All subsequently repeated results are fetched locally.</p>
+
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+{% endblock %}

@@ -18,7 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new DaveHamber\RestaurantSearchBundle\RestaurantSearchBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new HWI\Bundle\OAuthBundle\HWIOAuthBundle()
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new Bmatzner\FontAwesomeBundle\BmatznerFontAwesomeBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

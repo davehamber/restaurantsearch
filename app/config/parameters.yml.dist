@@ -19,3 +19,5 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
     fb_client_id:      AddFacebookClientIdHere
     fb_secret:         AddFacebookSecretKeyHere
+    google_api_key:    AddGoogleAPIKeyHere
+    street_view_image_path: "../web/streetview"
