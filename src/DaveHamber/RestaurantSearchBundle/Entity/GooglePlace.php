@@ -9,7 +9,9 @@
 namespace DaveHamber\RestaurantSearchBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use \DaveHamber\RestaurantSearchBundle\Entity\GoogleLocation;
+use Symfony\Component\Filesystem\Filesystem;
+use DaveHamber\RestaurantSearchBundle\Model\GoogleStreetView;
+use DaveHamber\RestaurantSearchBundle\Model\GooglePlacePhoto;
 
 /**
  * @ORM\Entity
@@ -26,6 +28,8 @@ class GooglePlace
     /**
      * @ORM\ManyToOne(targetEntity="GoogleLocation")
      * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
+     *
+     * @var GoogleLocation
      */
     protected $googleLocation = null;
 
@@ -66,10 +70,17 @@ class GooglePlace
      */
     protected $googleLocations;
 
-    protected $photos = array();
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true, name="photo_id")
+     *
+     * Contains the first photo id of any photo ids returned from the place search result.
+     */
+    protected $photoId = null;
 
     protected static $streetViewPath;
     protected static $rootPath;
+    protected static $apiKey;
 
     /**
      * Set id
@@ -168,6 +179,19 @@ class GooglePlace
     }
 
     /**
+     * Get rating
+     *
+     * @return float
+     */
+    public function getRatingText()
+    {
+        if (0 == $this->rating) {
+            return 'Unrated';
+        }
+
+        return (string)$this->rating;
+    }
+    /**
      * Set googleLocation
      *
      * @param \DaveHamber\RestaurantSearchBundle\Entity\GoogleLocation $googleLocation
@@ -234,14 +258,16 @@ class GooglePlace
         return $this->googleLocations;
     }
 
-    public static function setPaths($rootPath, $streetViewPath)
+    public static function setPathsAndApiKey($rootPath, $streetViewPath, $apiKey)
     {
         static::$streetViewPath = $streetViewPath;
         static::$rootPath = $rootPath;
+        static::$apiKey = $apiKey;
     }
 
     public function getStreetViewPath()
     {
+        $this->fetchImages();
         return '/'.basename(static::$streetViewPath).'/'.$this->id.'.jpg';
     }
 
@@ -251,13 +277,35 @@ class GooglePlace
 
     }
 
-    public function setPhotos($photos)
+    public function setPhotoId($photoId)
     {
-        $this->photos = $photos;
+        $this->photoId = $photoId;
     }
 
-    public function getPhotos()
+    public function getPhotoId()
     {
-        return $this->photos;
+        return $this->photoId;
+    }
+
+    public function fetchImages()
+    {
+        $fileName = $this->getAbsoluteStreetViewPath();
+
+        $fs = new Filesystem();
+
+        if (!$fs->exists($fileName)) {
+            if (null != $this->photoId) {
+                $placePhoto = new GooglePlacePhoto(
+                    static::$apiKey,
+                    $fileName,
+                    $this->photoId
+                );
+                $placePhoto->getPlacePhoto(250, 200);
+            } else {
+                $streetView = new GoogleStreetView(static::$apiKey, $fileName);
+                $streetView->setLocation($this->googleLocation->getLongitude(), $this->googleLocation->getLatitude());
+                $streetView->getStreetView();
+            }
+        }
     }
 }
