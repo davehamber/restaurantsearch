@@ -10,11 +10,7 @@ following info per restaurant:
 ● Photo
 ● Review score
 -->
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div class="well bs-component">{{ form_start(form) }} {{ form_widget(form) }} {{ form_end(form) }}</div>
-        <div style="text-align: left;">{% include 'RestaurantSearchBundle:Default:searchresults.html.twig' %}</div>
-    </div>
-    <div class="col-md-2"></div>
-</div>
+
+<p>Type in below the address of anywhere in the world you would like to search for a restaurant.</p>
+<div class="well bs-component">{{ form_start(form) }} {{ form_widget(form) }} {{ form_end(form) }}</div>
+<div style="text-align: left;">{% include 'RestaurantSearchBundle:Default:searchresults.html.twig' %}</div>
