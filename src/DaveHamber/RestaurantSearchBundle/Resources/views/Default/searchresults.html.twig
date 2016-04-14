@@ -1,8 +1,8 @@
 {% for result in results %}
-    <li><img src="{{ result.getStreetViewPath() }}" /></li>
-    <li>{{ result.getName() }}</li>
-    <li>{{ result.getVicinity() }}</li>
-    <li>{{ result.getRating() }}</li>
-    <li>{{ result.getGoogleLocation().getDistance() }}m</li><br/><br/>
-
+    <ul class="list-group">
+        <li class="list-group-item"><img src="{{ result.getStreetViewPath() }}"/></li>
+        <li class="list-group-item">{{ result.getName() }}, {{ result.getVicinity() }}</li>
+        <li class="list-group-item">Rating: {{ result.getRatingText() }}</li>
+        <li class="list-group-item">Distance: {{ result.getGoogleLocation().getDistance() }}m</li>
+    </ul>
 {% endfor %}
