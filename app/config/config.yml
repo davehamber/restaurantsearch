@@ -97,7 +97,7 @@ hwi_oauth:
         facebook:
             type:          "facebook"
             client_id:     "%fb_client_id%"
-            client_secret: "f94e2ae865ac744f78e9485dc02026c7"
+            client_secret: "%fb_secret%"
             scope:         "email"
             options:
                 display: popup #dialog is optimized for popup window
