@@ -108,3 +108,7 @@ hwi_oauth:
         # mapping between resource owners (see below) and properties
         properties:
             facebook: facebook_id
+
+    # optional HTTP Client configuration
+    http_client:
+        timeout: 30
