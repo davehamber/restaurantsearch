@@ -20,3 +20,40 @@ In order to use the Restaurant Search, the user must first log in to the site on
 The address the user types is converted via Google Geocoding into latitude and longitude. Using the Google Places API, a "nearby search" is sent using the latitude and longitude from the geocoding. The nearest twenty restaurants to the location are returned from Google. If photo information exists in a result, the first photo image will then be fetched from google. If there are no photos for any given place result then an image closest to the location will be fetched from Google Street View API.
 
 All results are committed to a database via Doctrine. The image files and photos are saved and stored on the server. All subsequently repeated results are fetched locally.
+
+### Installation
+
+#### Prerequisites
+* A php / web server environment with a database. MySQL is assumed (change from pdo_mysql driver in the app/config.yml if you use another).
+* A new facebook app with its client id and api secret https://developers.facebook.com
+* A Google API Key configured via https://console.developers.google.com with the Google Places API Web Service and Google Street View Image API enabled.
+* Make sure you have composer installed https://getcomposer.org
+
+#### Process
+* git clone https://github.com/davehamber/restaurantsearch.git
+* cd restaurantsearch
+* composer update
+
+* Get ready to input the following values:
+database_host (127.0.0.1):
+database_port (null):
+database_name (symfony):
+database_user (root):
+database_password (null):
+mailer_transport (smtp):
+mailer_host (127.0.0.1):
+mailer_user (null):
+mailer_password (null):
+secret (ThisTokenIsNotSoSecretChangeIt):
+fb_client_id (AddFacebookClientIdHere):
+fb_secret (AddFacebookSecretKeyHere):
+google_api_key (AddGoogleAPIKeyHere):
+street_view_image_path (../web/streetview):
+
+* Create database if it doesn't exist: php bin/console doctrine:database:create
+* Create the tables: php bin/console doctrine:schema:update --force
+* Run up your php web server: php app/console server:run
+
+If you are running this all locally you should be able to start browsing at http://127.0.0.1:8000
+
+
