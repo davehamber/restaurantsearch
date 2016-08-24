@@ -78,7 +78,9 @@ class GooglePlacePhoto
      */
     protected function downloadPhoto($photoUrl)
     {
-        $fp = fopen($this->pathAndFileName, 'w+');
+        if (!($fp = fopen($this->pathAndFileName, 'w+'))) {
+            return;
+        }
 
         $ch = curl_init($photoUrl);
 

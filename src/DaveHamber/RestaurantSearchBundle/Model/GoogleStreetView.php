@@ -243,7 +243,9 @@ class GoogleStreetView
      */
     protected function downloadImage($imageUrl)
     {
-        $fp = fopen($this->pathAndFileName, 'w+');
+        if (!($fp = fopen($this->pathAndFileName, 'w+'))) {
+            return;
+        }
 
         $ch = curl_init($imageUrl);
 
