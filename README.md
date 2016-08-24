@@ -29,31 +29,55 @@ All results are committed to a database via Doctrine. The image files and photos
 * A Google API Key configured via https://console.developers.google.com with the Google Places API Web Service and Google Street View Image API enabled.
 * Make sure you have composer installed https://getcomposer.org
 
-#### Process
+#### Process (using Vagrant)
 * git clone https://github.com/davehamber/restaurantsearch.git
 * cd restaurantsearch
 * composer update
 
 * Get ready to input the following values:
-database_host (127.0.0.1):
-database_port (null):
-database_name (symfony):
-database_user (root):
-database_password (null):
-mailer_transport (smtp):
-mailer_host (127.0.0.1):
-mailer_user (null):
-mailer_password (null):
-secret (ThisTokenIsNotSoSecretChangeIt):
-fb_client_id (AddFacebookClientIdHere):
-fb_secret (AddFacebookSecretKeyHere):
-google_api_key (AddGoogleAPIKeyHere):
-street_view_image_path (../web/streetview):
+    * database_host (localhost):
+    * database_port (null):
+    * database_name (restaurantsearch):
+    * database_user (restaurantsearch):
+    * database_password (restaurantsearch):
+    * mailer_transport (smtp):
+    * mailer_host (127.0.0.1):
+    * mailer_user (null):
+    * mailer_password (null):
+    * secret (ThisTokenIsNotSoSecretChangeIt):
+    * fb_client_id (AddFacebookClientIdHere):
+    * fb_secret (AddFacebookSecretKeyHere):
+    * google_api_key (AddGoogleAPIKeyHere):
+    * street_view_image_path (../web/streetview):
+All of these should be set as default when using the vagrant set up, with the exception of the Facebook client id, secret and Google API key which must be your own.    
 
-* Create database if it doesn't exist: php bin/console doctrine:database:create
-* Create the tables: php bin/console doctrine:schema:update --force
-* Run up your php web server: php app/console server:run
+* vagrant box add centos/7
+* vagrant up
 
-If you are running this all locally you should be able to start browsing at http://127.0.0.1:8000
+If you have failed to add your Facebook client id, secret and google api key you can log into your vagrant instance at anytime using:
+
+* vagrant ssh
+* nano /vagrant/app/config/parameters.yml
+
+After vagrant sets up the installation, the complete environment including the database and tables will be now configured.
+You should now be able to view the site at localhost:8080 but for the facebook login functionality you need to use a domain name.
+
+When creating your Facebook app at https://developers.facebook.com you must specify a domain name and not an IP address
+In my case I set the Site URL to http://restaurantsearch.davehamber.local:8080/login/check-facebook
+
+You will need to modify your own hosts file to include the URL you specify as the URL in the Facebook dev console
+Windows: c:\windows\system32\drivers\etc\hosts
+Linux /etc/hosts
+Add this line:
+
+* 127.0.0.1           restaurantsearch.davehamber.local
+
+To run Symfony in dev mode you can use the built in php server. Port 8000 is already forwarded in the VagrantFile. You must bind the IP to 0.0.0.0:8000 to make the set up accessable by your host machine.
+Remember, your Facebook app only works for one address, you may wish to configure a second dev app to work on the different port.
+
+* vagrant ssh (if not logged in already)
+* php /vagrant/app/console server:run 0.0.0.0:8000
+
+
 
 
