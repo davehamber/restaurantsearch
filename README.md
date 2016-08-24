@@ -24,10 +24,15 @@ All results are committed to a database via Doctrine. The image files and photos
 ### Installation
 
 #### Prerequisites
+* Vagrant installed https://www.vagrantup.com/downloads.html
+* rsync is required to use the vagrant setup. For Windows, it is easiest to use cygwin with rsync added. Use vagrant with cygwin terminal.
+or
 * A php / web server environment with a database. MySQL is assumed (change from pdo_mysql driver in the app/config.yml if you use another).
+* PHP 5.6+ installed http://php.net/downloads.php
+* composer installed https://getcomposer.org/download/
+* git installed
 * A new facebook app with its client id and api secret https://developers.facebook.com
 * A Google API Key configured via https://console.developers.google.com with the Google Places API Web Service and Google Street View Image API enabled.
-* Make sure you have composer installed https://getcomposer.org
 
 #### Process (using Vagrant)
 * git clone https://github.com/davehamber/restaurantsearch.git
